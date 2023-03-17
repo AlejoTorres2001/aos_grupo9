@@ -9,6 +9,11 @@
 ## Integrantes
 
 ## Comandos Docker
+
+### Levantar el contenedor
+```bash
+docker-compose up -d
+```
 ### Validar la especificación OpenAPI
 ```bash
 docker run --rm -v $(pwd)/openapi/openapi.yaml:/app/openapi.yaml redocly/cli lint /app/openapi.yaml
