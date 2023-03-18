@@ -20,7 +20,7 @@ servers:
 components:
   schemas:
     Trabajo:
-      title: 'Representacion del recurso Trabajo'
+      title: 'Representacion del recurso Trabajo' 
       description: 'identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necsario'
       type: object
       properties:
@@ -79,7 +79,7 @@ components:
       enum: [ "Creado", "Planificado", "Iniciado", "Terminado" ]
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Creado", "Planificado", "Iniciado", "Terminado" ])
-  Categorias_Trabajo:
+    Categorias_Trabajo:
       description: |
         cateogorias de un trabajo:
         * `Reparacion`: trabajo de reparacion de partes internas del vehiculo
@@ -90,7 +90,7 @@ components:
       enum: [ "Reparacion", "Recambio", "Estetica"]
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Reparacion", "Recambio", "Estetica"])
-  ClienteId:
+    ClienteId:
       description: |
         identificador del cliente dentro del sistema
       type: integer
@@ -98,7 +98,7 @@ components:
       default: 1
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.randomize([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ])
-  MecanicoId:
+    MecanicoId:
       description: |
         identificador del mecanico dentro del sistema
       type: string
@@ -107,7 +107,7 @@ components:
       example: "M01"
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.regexpStyleStringParse('M[10-99]')
-  VehiculoVIN:
+    VehiculoVIN:
       description: |
         identificador del vehiculo dentro del sistema
       type: string
@@ -116,7 +116,7 @@ components:
       example: "D8PAHRVZ78UVX54PM"
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.regexpStyleStringParse('[A-HJ-NPR-Z0-9]{17}')
-  Compejidad_Trabajo:
+    Compejidad_Trabajo:
       description: |
         complejidad del trabajo:
         * `Baja`: trabajo de baja complejidad
@@ -128,7 +128,7 @@ components:
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Baja", "Media", "Alta"])
   
-  HTTP_Problem:
+    HTTP_Problem:
       type: object
       externalDocs:
         url: https://tools.ietf.org/html/rfc7807
@@ -155,7 +155,7 @@ components:
           description: >
             A URI reference that identifies the specific occurrence of the problem.
             It may or may not yield further information if dereferenced.
-  Link:
+    Link:
       description: Enlace de relación
       title: '🔗 Link'
       type: object
@@ -173,3 +173,24 @@ components:
       example:
         href: https://www.example.com/path/resource
         rel: relAction1 relAction2
+  headers:
+    ETag:
+      description: "Entity Tag (identificador único proporcionado para validación de caché)"
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        example:
+          33a64df551425fcc
+    Allow:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example: GET, DELETE, PUT, OPTIONS
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: uri
+        x-faker: internet.url
+        example:
+          https://example.com/api/v1/Trabajos/1
