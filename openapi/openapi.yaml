@@ -15,3 +15,182 @@ info:
 
 servers:
   - url: http://127.0.0.1:80/api/v1
+
+
+components:
+  schemas:
+    Trabajo:
+      title: 'Representacion del recurso Trabajo' 
+      description: 'identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necsario'
+      type: object
+      properties:
+        idTrabajo:
+          type: integer
+          format: int64
+          description: 'identificador unico del trabajo en el sistema de persistencia'
+        descripcionTrabajo:
+          type: string
+          description: 'descripcion del trabajo a realizar'
+        fechaIngresoTrabajo:
+          type: string
+          format: date-time
+          description: 'fecha de ingreso del vehiculo al taller'
+        fechaIncioTrabajo:
+          type: string
+          format: date-time
+          description: 'fecha de inicio del trabajo'
+        fechaFinalizacionTrabajo:
+          type: string
+          format: date-time
+          description: 'fecha de finalizacion del trabajo'
+        estadoTrabajo:
+          $ref: '#/components/schemas/Estados_Trabajo'
+        categoriaTrabajo:
+          $ref: '#/components/schemas/Categorias_Trabajo'
+        cotizacionTrabajo:
+          type: number
+          format: double
+        clienteIdTrabajo:
+          $ref: '#/components/schemas/ClienteId'
+        mecanicoIdTrabajo:
+          $ref: '#/components/schemas/MecanicoId'
+        vehiculoVINTrabajo:
+          $ref: '#/components/schemas/VehiculoVIN'
+        compejidadTrabajo:
+          $ref: '#/components/schemas/Compejidad_Trabajo'
+      required:
+        - idTrabajo
+        - descripcionTrabajo
+        - estadoTrabajo
+        - categoriaTrabajo
+        - clienteIdTrabajo
+        - vehiculoVINTrabajo
+        - compejidadTrabajo
+
+    Estados_Trabajo:
+      description: |
+        Estado del trabajo:
+        * `Creado`: trabajo ingresado al sistema
+        * `Planificado`: trabajo en cola -> mecanico asignado
+        * `Iniciado`: trabajo en curso
+        * `Terminado`: trabajo finalizado
+      type: string
+      default: "Creado"
+      enum: [ "Creado", "Planificado", "Iniciado", "Terminado" ]
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.arrayElement([ "Creado", "Planificado", "Iniciado", "Terminado" ])
+    Categorias_Trabajo:
+      description: |
+        cateogorias de un trabajo:
+        * `Reparacion`: trabajo de reparacion de partes internas del vehiculo
+        * `Recambio`: trabajo de cambio de piezas del vehiculo
+        * `Estetica`: trabajos de estetica y pintura
+      type: string
+      default: "Reparacion"
+      enum: [ "Reparacion", "Recambio", "Estetica"]
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.arrayElement([ "Reparacion", "Recambio", "Estetica"])
+    ClienteId:
+      description: |
+        identificador del cliente dentro del sistema
+      type: integer
+      format: int64
+      default: 1
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.randomize([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ])
+    MecanicoId:
+      description: |
+        identificador del mecanico dentro del sistema
+      type: string
+      pattern: "^[A-Z]{1}[0-9]{2}"
+      default: "M00"
+      example: "M01"
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.regexpStyleStringParse('M[10-99]')
+    VehiculoVIN:
+      description: |
+        identificador del vehiculo dentro del sistema
+      type: string
+      pattern: "[A-HJ-NPR-Z0-9]{17}"
+      default: "D8PAHRVZ78UVX54PM"
+      example: "D8PAHRVZ78UVX54PM"
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.regexpStyleStringParse('[A-HJ-NPR-Z0-9]{17}')
+    Compejidad_Trabajo:
+      description: |
+        complejidad del trabajo:
+        * `Baja`: trabajo de baja complejidad
+        * `Media`: trabajo de media complejidad
+        * `Alta`: trabajo de alta complejidad
+      type: string
+      default: "Baja"
+      enum: [ "Baja", "Media", "Alta"]
+      # https://v6.fakerjs.dev/guide/
+      x-faker: helpers.arrayElement([ "Baja", "Media", "Alta"])
+  
+    HTTP_Problem:
+      type: object
+      externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+      description: |
+        Problem Details for HTTP APIs
+        [https://tools.ietf.org/html/rfc7807](https://tools.ietf.org/html/rfc7807)
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference [RFC3986] that identifies the problem type
+        title:
+          type: string
+          description: short human-readable summary of the problem type
+        status:
+          type: number
+          description: HTTP status code
+        detail:
+          type: string
+          description: Human-readable explanation specific to this occurrence of the problem
+        instance:
+          type: string
+          format: uri
+          description: >
+            A URI reference that identifies the specific occurrence of the problem.
+            It may or may not yield further information if dereferenced.
+    Link:
+      description: Enlace de relación
+      title: '🔗 Link'
+      type: object
+      properties:
+        href:
+          description: URL del enlace
+          type: string
+          format: uri
+          x-faker: internet.url
+        rel:
+          description: "Relación del recurso enlazado con el actual. Contiene una lista de tipos
+                    de relaciones separados por espacio."
+          type: string
+          x-faker: lorem.words
+      example:
+        href: https://www.example.com/path/resource
+        rel: relAction1 relAction2
+  headers:
+    ETag:
+      description: "Entity Tag (identificador único proporcionado para validación de caché)"
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        example:
+          33a64df551425fcc
+    Allow:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example: GET, DELETE, PUT, OPTIONS
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: uri
+        x-faker: internet.url
+        example:
+          https://example.com/api/v1/Trabajos/1
