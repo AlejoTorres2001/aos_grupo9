@@ -67,22 +67,21 @@ paths:
         '404':
           $ref: '#/components/responses/Response_404'
         '500':
-          description: Error interno del servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTP_Problem'
+          $ref: '#/components/responses/Response_500'
+
+  /trabajos/{idTrabajo}:
+    parameters:
+      - $ref: '#/components/parameters/idTrabajoParam'
+
 components:
   schemas:
     Trabajo:
-      title: 'Representacion del recurso Trabajo' 
-      description: 'identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necsario'
+      title: 'Trabajo' 
+      description: 'Representacion del recurso trabajo, identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necesario'
       type: object
       properties:
         idTrabajo:
-          type: integer
-          format: int64
-          description: 'identificador unico del trabajo en el sistema de persistencia'
+          $ref: '#/components/schemas/IdTrabajo'
         descripcionTrabajo:
           type: string
           description: 'descripcion del trabajo a realizar'
@@ -121,7 +120,11 @@ components:
         - clienteIdTrabajo
         - vehiculoVINTrabajo
         - compejidadTrabajo
-
+    IdTrabajo:
+      type: integer
+      format: int64
+      description: 'identificador unico del trabajo en el sistema de persistencia'
+      example: 1
     Estados_Trabajo:
       description: |
         Estado del trabajo:
@@ -300,19 +303,26 @@ components:
       schema:
         type: integer
         minimum: 1
+    trabajoId:
+      name: trabajo_id
+      in: path
+      description: Identificador único del trabajo dentro del sistema
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id_Plataforma'
 
-examples:
-  response-http-404:
-    value:
-      type: https://httpstatuses.com/404
-      title: NOT FOUND
-      status: 404
-      detail: El recurso no está disponible.
-      instance: about:blank
-  response-http-500:
+  examples:
+    response-http-404:
       value:
-        type: https://httpstatuses.com/500
-        title: INTERNAL SERVER ERROR
-        status: 500
-        detail: Ha ocurrido un error en el servidor.
-        instance: about:blan
+        type: https://httpstatuses.com/404
+        title: NOT FOUND
+        status: 404
+        detail: El recurso no está disponible.
+        instance: about:blank
+    response-http-500:
+        value:
+          type: https://httpstatuses.com/500
+          title: INTERNAL SERVER ERROR
+          status: 500
+          detail: Ha ocurrido un error en el servidor.
+          instance: about:blan
