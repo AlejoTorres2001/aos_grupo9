@@ -71,7 +71,34 @@ paths:
 
   /trabajos/{idTrabajo}:
     parameters:
-      - $ref: '#/components/parameters/idTrabajoParam'
+      - $ref: '#/components/parameters/IdTrabajoParam'
+    get:
+      tags:
+        - Trabajos
+      summary: Recupera un trabajo por su id
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+        
+        | Status Code | Descripción | Motivo                             |
+        | ------------| ------------| -----------------------------------|
+        | **200**     | OK          | Trabajo obtenido                   |
+        | **404**     | NOT FOUND   | No existe el trabajo              |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
+      operationId: getTrabajo
+      responses:
+        '200':
+          description: Trabajo
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trabajo'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '500':
+          $ref: '#/components/responses/Response_500'
 
 components:
   schemas:
@@ -303,13 +330,13 @@ components:
       schema:
         type: integer
         minimum: 1
-    trabajoId:
+    IdTrabajoParam:
       name: trabajo_id
       in: path
       description: Identificador único del trabajo dentro del sistema
       required: true
       schema:
-        $ref: '#/components/schemas/Id_Plataforma'
+        $ref: '#/components/schemas/IdTrabajo'
 
   examples:
     response-http-404:
