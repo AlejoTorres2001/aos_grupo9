@@ -139,6 +139,21 @@ components:
           $ref: '#/components/schemas/VehiculoVIN'
         compejidadTrabajo:
           $ref: '#/components/schemas/Compejidad_Trabajo'
+        links:
+          description: Enlaces de relación del trabajo
+          readOnly: true
+          type: object
+          properties:
+            vehiculo:
+              $ref: '#/components/schemas/Link'
+            cliente:
+              $ref: '#/components/schemas/Link'
+            mecanico:
+              $ref: '#/components/schemas/Link'
+            self:
+              $ref: '#/components/schemas/Link'
+            parent:
+              $ref: '#/components/schemas/Link'
       required:
         - idTrabajo
         - descripcionTrabajo
@@ -147,6 +162,8 @@ components:
         - clienteIdTrabajo
         - vehiculoVINTrabajo
         - compejidadTrabajo
+      example:
+        { "idTrabajo": 1,"descripcionTrabajo": "descripcion del trabajo","fechaIngresoTrabajo": "2023-03-21T10:31:28.258Z", "fechaIncioTrabajo": "2023-03-21T10:31:28.258Z","fechaFinalizacionTrabajo": "2023-03-21T10:31:28.258Z","estadoTrabajo": "Creado", "categoriaTrabajo": "Reparacion","cotizacionTrabajo": 122, "clienteIdTrabajo": 1,"mecanicoIdTrabajo": "M01","vehiculoVINTrabajo": "D8PAHRVZ78UVX54PM","compejidadTrabajo": "Baja", "links":{"vehiculo": { "href": "https://www.example.com/vehiculos/D8PAHRVZ78UVX54PM","rel": "vehiculo_get vehiculo_options"},"cliente": {"href": "https://www.example.com/clientes/1","rel": "cliente_get cliente_options"},"mecanico": { "href": "https://www.example.com/mecanicos/M01","rel": "mecanico_get mecanico_options"},"self": {"href": "https://www.example.com/trabajos/1","rel": "trabajo_get trabajo_put trabajo_delete trabajo_options" },"parent": {"href": "https://www.example.com/trabajos", "rel": "trabajos_get trabajos_option" } }}
     IdTrabajo:
       type: integer
       format: int64
