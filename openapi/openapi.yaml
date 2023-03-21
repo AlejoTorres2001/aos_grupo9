@@ -16,7 +16,62 @@ info:
 servers:
   - url: http://127.0.0.1:80/api/v1
 
+tags:
+  - name: Trabajos
+    description: Operaciones sobre los trabajos del taller
 
+paths:
+  /trabajos:
+    get:
+      tags:
+        - Trabajos
+      summary: Recupera todos los trabajos
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+        
+        | Status Code | Descripción | Motivo                             |
+        | ------------| ------------| -----------------------------------|
+        | **200**     | OK          | Listado de trabajos obtenidos                   |
+        | **404**     | NOT FOUND   | No hay ningun trabajo              |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
+      operationId: getTrabajos
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/orderParam'
+        - $ref: '#/components/parameters/orderingParam'
+      responses:
+        '200':
+          description: Lista de trabajos
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trabajos: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trabajo'
+                    descripcion: Lista de Trabajos
+                  links:
+                    description: Enlaces de paginación
+                    readOnly: true
+                    type: object
+                    properties:
+                      prevPage:
+                        $ref: '#/components/schemas/Link'
+                      nextPage:
+                        $ref: '#/components/schemas/Link'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_Problem'
 components:
   schemas:
     Trabajo:
@@ -194,3 +249,70 @@ components:
         x-faker: internet.url
         example:
           https://example.com/api/v1/Trabajos/1
+  responses:
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response-http-404'
+    Response_500:
+      description: '`INTERNAL SERVER ERROR`: error interno del servidor'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-500:
+              $ref: '#/components/examples/response-http-500'
+  parameters:
+    orderParam:
+      name: order
+      in: query
+      description: 'Criterio de ordenación: `id` | `fechaIngresoTrabajo`'
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: string
+        enum:
+          - id
+          - fechaIngresoTrabajo
+    orderingParam:
+      name: ordering
+      in: query
+      description: 'Ordenación: `ASC` | `DESC`'
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+    pageParam:
+      name: page
+      in: query
+      description: 'Número de página'
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: integer
+        minimum: 1
+
+examples:
+  response-http-404:
+    value:
+      type: https://httpstatuses.com/404
+      title: NOT FOUND
+      status: 404
+      detail: El recurso no está disponible.
+      instance: about:blank
+  response-http-500:
+      value:
+        type: https://httpstatuses.com/500
+        title: INTERNAL SERVER ERROR
+        status: 500
+        detail: Ha ocurrido un error en el servidor.
+        instance: about:blan
