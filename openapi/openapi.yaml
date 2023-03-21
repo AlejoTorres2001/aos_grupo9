@@ -23,6 +23,7 @@ tags:
 paths:
   /trabajos:
     get:
+      security: []   
       tags:
         - Trabajos
       summary: Recupera todos los trabajos
@@ -54,7 +55,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Trabajo'
-                    descripcion: Lista de Trabajos
                   links:
                     description: Enlaces de paginación
                     readOnly: true
@@ -69,10 +69,11 @@ paths:
         '500':
           $ref: '#/components/responses/Response_500'
 
-  /trabajos/{idTrabajo}:
+  /trabajos/{idTrabajoParam}:
     parameters:
       - $ref: '#/components/parameters/IdTrabajoParam'
     get:
+      security: []   
       tags:
         - Trabajos
       summary: Recupera un trabajo por su id
@@ -348,7 +349,7 @@ components:
         type: integer
         minimum: 1
     IdTrabajoParam:
-      name: trabajo_id
+      name: idTrabajoParam
       in: path
       description: Identificador único del trabajo dentro del sistema
       required: true
