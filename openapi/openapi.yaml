@@ -68,7 +68,39 @@ paths:
           $ref: '#/components/responses/Response_404'
         '500':
           $ref: '#/components/responses/Response_500'
-
+    post:
+      security: []   
+      tags:
+        - Trabajos
+      summary: Crea un nuevo trabajo
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+        
+        | Status Code | Descripción | Motivo                             |
+        | ------------| ------------| -----------------------------------|
+        | **201**     | CREATED          | Trabajo creado                   |
+        | **400**     | BAD REQUEST   | El trabajo no es valido              |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
+        | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos obligatorios|
+      operationId: createTrabajo
+      requestBody:
+        $ref: '#/components/requestBodies/trabajoRB'
+      responses:
+        '201':
+          description: Trabajo creado
+          headers:
+             Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trabajo'
+        '400':
+          $ref: '#/components/responses/Response_400'
+        '500':
+          $ref: '#/components/responses/Response_500'
+        '422':
+          $ref: '#/components/responses/Response_422'
   /trabajos/{idTrabajoParam}:
     parameters:
       - $ref: '#/components/parameters/IdTrabajoParam'
