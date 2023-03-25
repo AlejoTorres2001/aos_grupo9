@@ -70,6 +70,7 @@ paths:
           $ref: '#/components/responses/Response_500'
     
     options:
+      security: []
       tags:
         - Trabajos
       summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
@@ -80,7 +81,7 @@ paths:
           description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
           headers:
             Allow:
-              $ref: '#components/headers/Allow'
+              $ref: '#/components/headers/Allow'
 
   /trabajos/{idTrabajoParam}:
     parameters:
@@ -114,17 +115,18 @@ paths:
         '500':
           $ref: '#/components/responses/Response_500'
     options:
+      security: []
       tags: 
         - Trabajos
       summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
       description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
-      operationId: trabajo_coptions
+      operationId: trabajo_options
       responses:
         '204':
           description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
           headers:
             Allow:
-              $ref: '#components/headers/Allow'
+              $ref: '#/components/headers/Allow'
 components:
   schemas:
     Trabajo:
