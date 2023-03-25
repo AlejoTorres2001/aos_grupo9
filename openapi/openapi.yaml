@@ -438,6 +438,3 @@ components:
                   format: double
                 categoriaTrabajo:
                   $ref: '#/components/schemas/Categorias_Trabajo'
-          examples:
-            trabajo:
-              $ref: '#/components/examples/trabajo'
