@@ -30,10 +30,10 @@ paths:
       description: |
         La siguiente tabla define los códigos de estado que puede devolver este endpoint
         
-        | Status Code | Descripción | Motivo                             |
-        | ------------| ------------| -----------------------------------|
-        | **200**     | OK          | Listado de trabajos obtenidos                   |
-        | **404**     | NOT FOUND   | No hay ningun trabajo              |
+        | Status Code | Descripción             | Motivo                             |
+        | ------------| ------------------------| -----------------------------------|
+        | **200**     | OK                      | Listado de trabajos obtenidos      |
+        | **404**     | NOT FOUND               | No hay ningun trabajo              |
         | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
       operationId: getTrabajos
       parameters:
@@ -68,6 +68,19 @@ paths:
           $ref: '#/components/responses/Response_404'
         '500':
           $ref: '#/components/responses/Response_500'
+    
+    options:
+      tags:
+        - Trabajos
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: trabajo_coptions
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#components/headers/Allow'
 
   /trabajos/{idTrabajoParam}:
     parameters:
@@ -100,7 +113,18 @@ paths:
           $ref: '#/components/responses/Response_404'
         '500':
           $ref: '#/components/responses/Response_500'
-
+    options:
+      tags: 
+        - Trabajos
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: trabajo_coptions
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#components/headers/Allow'
 components:
   schemas:
     Trabajo:
