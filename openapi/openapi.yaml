@@ -316,6 +316,15 @@ components:
           examples:
             response-http-500:
               $ref: '#/components/examples/response-http-500'
+    Response_422:
+      description: '`UNPROCESSABLE ENTITY` Falta alguno de los atributos obligatorios o son incorrectos.'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response-http-422'
   parameters:
     orderParam:
       name: order
