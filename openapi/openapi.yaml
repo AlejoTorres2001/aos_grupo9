@@ -422,9 +422,11 @@ components:
               - categoriaTrabajo
             properties:
                 fechaIngresoTrabajo:
-                  type: date-time
+                  type: string
+                  format: date-time
                 fechaSalidaTrabajo:
-                  type: date-time
+                  type: string
+                  format: date-time
                 mecanicoId:
                   $ref: '#/components/schemas/MecanicoId'
                 vehiculoVIN:
