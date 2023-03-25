@@ -380,3 +380,39 @@ components:
           status: 500
           detail: Ha ocurrido un error en el servidor.
           instance: about:blan
+  requestBodies:
+    trabajoRB:
+      description: |
+        Datos del trabajo
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - fechaIngresoTrabajo
+              - fechaSalidaTrabajo
+              - mecanicoId
+              - vehiculoVIN
+              - compejidadTrabajo
+              - cotizacionTrabajo
+              - categoriaTrabajo
+            properties:
+                fechaIngresoTrabajo:
+                  type: date-time
+                fechaSalidaTrabajo:
+                  type: date-time
+                mecanicoId:
+                  $ref: '#/components/schemas/MecanicoId'
+                vehiculoVIN:
+                  $ref: '#/components/schemas/VehiculoVIN'
+                compejidadTrabajo:
+                  $ref: '#/components/schemas/Compejidad_Trabajo'
+                cotizacionTrabajo:
+                  type: number
+                  format: double
+                categoriaTrabajo:
+                  $ref: '#/components/schemas/Categorias_Trabajo'
+          examples:
+            trabajo:
+              $ref: '#/components/examples/trabajo'
