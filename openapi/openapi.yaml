@@ -100,6 +100,24 @@ paths:
           $ref: '#/components/responses/Response_404'
         '500':
           $ref: '#/components/responses/Response_500'
+    delete:
+      security: []
+      tags:
+        - Trabajos
+      summary: Elimina el trabajo identificado por `idTrabajoParam`
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code | Descripción | Motivo                                 |
+        | ------------| ------------| ---------------------------------------|
+        | **204**     | NO CONTENT  | El trabajo ha sido eliminado con éxito |
+        | **404**     | NOT FOUND   | Si el trabajo no existe                |
+      operationId: trabajo_delete
+      responses:
+        '204':
+          description: trabajo eliminado &lt;Cuerpo de la respuesta vacío&gt;
+        '404':
+          $ref: '#/components/responses/Response_404'
 
 components:
   schemas:
