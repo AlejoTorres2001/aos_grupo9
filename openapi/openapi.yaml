@@ -189,6 +189,39 @@ paths:
           $ref: '#/components/responses/Response_500'
         '404':
           $ref: '#/components/responses/Response_404'
+    put:
+      security: []
+      tags:
+        - Trabajos
+      summary: Actualiza el trabajo identificado por `idTrabajoParam`
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code | Descripción | Motivo                                 |
+        | ------------| ------------| ---------------------------------------|
+        | **200**     | OK          | El trabajo ha sido actualizado con éxito |
+        | **404**     | NOT FOUND   | Si el trabajo no existe                |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
+        | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos obligatorios|
+      operationId: trabajo_put
+      requestBody:
+        $ref: "#/components/requestBodies/trabajoPutRB"
+      responses:
+        '200':
+          description: trabajo actualizado
+          headers:
+            ETag:
+              $ref: "#/components/headers/ETag"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trabajo"
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '500':
+          $ref: '#/components/responses/Response_500'
+        "422":
+          $ref: "#/components/responses/Response_422"
 components:
   schemas:
     Trabajo:
@@ -566,3 +599,31 @@ components:
                 format: double
               categoriaTrabajo:
                 $ref: "#/components/schemas/Categorias_Trabajo"
+    trabajoPutRB:
+      description: |
+        Datos actualizables del trabajo
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              descripcionTrabajo:
+                type: string
+              fechaInicioTrabajo:
+                type: string
+                format: date-time
+              fechaFinalizacionTrabajo:
+                type: string
+                format: date-time
+              mecanicoId:
+                $ref: "#/components/schemas/MecanicoId"
+              compejidadTrabajo:
+                $ref: "#/components/schemas/Compejidad_Trabajo"
+              cotizacionTrabajo:
+                type: number
+                format: double
+              categoriaTrabajo:
+                $ref: "#/components/schemas/Categorias_Trabajo"
+              estadoTrabajo:
+                $ref: "#/components/schemas/Estados_Trabajo"
