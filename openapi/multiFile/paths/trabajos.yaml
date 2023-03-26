@@ -1,0 +1,115 @@
+get:
+  security: []
+  tags:
+    - Trabajos
+  summary: Recupera todos los trabajos
+  description: >
+    La siguiente tabla define los códigos de estado que puede devolver este
+    endpoint
+
+
+    | Status Code | Descripción | Motivo                             |
+
+    | ------------| ------------| -----------------------------------|
+
+    | **200**     | OK          | Listado de trabajos
+    obtenidos                   |
+
+    | **404**     | NOT FOUND   | No hay ningun trabajo              |
+
+    | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor        
+    |
+  operationId: getTrabajos
+  parameters:
+    - $ref: ../components/parameters/pageParam.yaml
+    - $ref: ../components/parameters/orderParam.yaml
+    - $ref: ../components/parameters/orderingParam.yaml
+  responses:
+    '200':
+      description: Lista de trabajos
+      headers:
+        ETag:
+          $ref: ../components/headers/ETag.yaml
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              trabajos:
+                type: array
+                items:
+                  $ref: ../components/schemas/Trabajo.yaml
+              links:
+                description: Enlaces de paginación
+                readOnly: true
+                type: object
+                properties:
+                  prevPage:
+                    $ref: ../components/schemas/Link.yaml
+                  nextPage:
+                    $ref: ../components/schemas/Link.yaml
+    '404':
+      $ref: ../components/responses/Response_404.yaml
+    '500':
+      $ref: ../components/responses/Response_500.yaml
+options:
+  security: []
+  tags:
+    - Trabajos
+  summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+  description: >-
+    Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados
+    (separados por comas).
+  operationId: trabajo_coptions
+  responses:
+    '204':
+      description: cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;
+      headers:
+        Allow:
+          $ref: ../components/headers/Allow.yaml
+    '404':
+      $ref: ../components/responses/Response_404.yaml
+    '500':
+      $ref: ../components/responses/Response_500.yaml
+post:
+  security: []
+  tags:
+    - Trabajos
+  summary: Crea un nuevo trabajo
+  description: >
+    La siguiente tabla define los códigos de estado que puede devolver este
+    endpoint
+
+
+    | Status Code | Descripción | Motivo                             |
+
+    | ------------| ------------| -----------------------------------|
+
+    | **201**     | CREATED          | Trabajo creado                   |
+
+    | **400**     | BAD REQUEST   | El trabajo no es valido              |
+
+    | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor        
+    |
+
+    | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos
+    obligatorios|
+  operationId: createTrabajo
+  requestBody:
+    $ref: ../components/requestBodies/trabajoRB.yaml
+  responses:
+    '201':
+      description: Trabajo creado
+      headers:
+        Location:
+          $ref: ../components/headers/Location.yaml
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Trabajo.yaml
+    '400':
+      $ref: ../components/responses/Response_400.yaml
+    '422':
+      $ref: ../components/responses/Response_422.yaml
+    '500':
+      $ref: ../components/responses/Response_500.yaml

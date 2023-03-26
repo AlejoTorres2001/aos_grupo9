@@ -1,0 +1,33 @@
+description: |
+  Datos del trabajo
+required: true
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - fechaIngresoTrabajo
+        - fechaSalidaTrabajo
+        - mecanicoId
+        - vehiculoVIN
+        - compejidadTrabajo
+        - cotizacionTrabajo
+        - categoriaTrabajo
+      properties:
+        fechaIngresoTrabajo:
+          type: string
+          format: date-time
+        fechaSalidaTrabajo:
+          type: string
+          format: date-time
+        mecanicoId:
+          $ref: ../schemas/MecanicoId.yaml
+        vehiculoVIN:
+          $ref: ../schemas/VehiculoVIN.yaml
+        compejidadTrabajo:
+          $ref: ../schemas/Compejidad_Trabajo.yaml
+        cotizacionTrabajo:
+          type: number
+          format: double
+        categoriaTrabajo:
+          $ref: ../schemas/Categorias_Trabajo.yaml
