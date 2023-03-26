@@ -7,10 +7,10 @@ info:
     ## **[AOS 2023]** API REST para la gestión de Trabajos .
   license:
     name: MIT
-    url: 'https://opensource.org/licenses/MIT'
+    url: "https://opensource.org/licenses/MIT"
   contact:
     name: Máster Universitario en Ingeniería Web
-    url: 'https://miw.etsisi.upm.es/'
+    url: "https://miw.etsisi.upm.es/"
     email: miw.etsisi@upm.es
 
 servers:
@@ -23,13 +23,13 @@ tags:
 paths:
   /trabajos:
     get:
-      security: []   
+      security: []
       tags:
         - Trabajos
       summary: Recupera todos los trabajos
       description: |
         La siguiente tabla define los códigos de estado que puede devolver este endpoint
-        
+
         | Status Code | Descripción | Motivo                             |
         | ------------| ------------| -----------------------------------|
         | **200**     | OK          | Listado de trabajos obtenidos                   |
@@ -37,49 +37,81 @@ paths:
         | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
       operationId: getTrabajos
       parameters:
-        - $ref: '#/components/parameters/pageParam'
-        - $ref: '#/components/parameters/orderParam'
-        - $ref: '#/components/parameters/orderingParam'
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/orderParam"
+        - $ref: "#/components/parameters/orderingParam"
       responses:
-        '200':
+        "200":
           description: Lista de trabajos
           headers:
             ETag:
-              $ref: '#/components/headers/ETag'
+              $ref: "#/components/headers/ETag"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  trabajos: 
+                  trabajos:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Trabajo'
+                      $ref: "#/components/schemas/Trabajo"
                   links:
                     description: Enlaces de paginación
                     readOnly: true
                     type: object
                     properties:
                       prevPage:
-                        $ref: '#/components/schemas/Link'
+                        $ref: "#/components/schemas/Link"
                       nextPage:
-                        $ref: '#/components/schemas/Link'
-        '404':
-          $ref: '#/components/responses/Response_404'
-        '500':
-          $ref: '#/components/responses/Response_500'
+                        $ref: "#/components/schemas/Link"
+        "404":
+          $ref: "#/components/responses/Response_404"
+        "500":
+          $ref: "#/components/responses/Response_500"
+    post:
+      security: []
+      tags:
+        - Trabajos
+      summary: Crea un nuevo trabajo
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
 
+        | Status Code | Descripción | Motivo                             |
+        | ------------| ------------| -----------------------------------|
+        | **201**     | CREATED          | Trabajo creado                   |
+        | **400**     | BAD REQUEST   | El trabajo no es valido              |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
+        | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos obligatorios|
+      operationId: createTrabajo
+      requestBody:
+        $ref: "#/components/requestBodies/trabajoRB"
+      responses:
+        "201":
+          description: Trabajo creado
+          headers:
+            Location:
+              $ref: "#/components/headers/Location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trabajo"
+        "400":
+          $ref: "#/components/responses/Response_400"
+        "500":
+          $ref: "#/components/responses/Response_500"
+        "422":
+          $ref: "#/components/responses/Response_422"
   /trabajos/{idTrabajoParam}:
     parameters:
-      - $ref: '#/components/parameters/IdTrabajoParam'
+      - $ref: "#/components/parameters/IdTrabajoParam"
     get:
-      security: []   
+      security: []
       tags:
         - Trabajos
       summary: Recupera un trabajo por su id
       description: |
         La siguiente tabla define los códigos de estado que puede devolver este endpoint
-        
+
         | Status Code | Descripción | Motivo                             |
         | ------------| ------------| -----------------------------------|
         | **200**     | OK          | Trabajo obtenido                   |
@@ -87,11 +119,11 @@ paths:
         | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
       operationId: getTrabajo
       responses:
-        '200':
+        "200":
           description: Trabajo
           headers:
             ETag:
-              $ref: '#/components/headers/ETag'
+              $ref: "#/components/headers/ETag"
           content:
             application/json:
               schema:
@@ -122,57 +154,57 @@ paths:
 components:
   schemas:
     Trabajo:
-      title: 'Trabajo' 
-      description: 'Representacion del recurso trabajo, identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necesario'
+      title: "Trabajo"
+      description: "Representacion del recurso trabajo, identifica el ingreso de un vehiculo al taller, estado y descripcion del proceso de reparacion necesario"
       type: object
       properties:
         idTrabajo:
-          $ref: '#/components/schemas/IdTrabajo'
+          $ref: "#/components/schemas/IdTrabajo"
         descripcionTrabajo:
           type: string
-          description: 'descripcion del trabajo a realizar'
+          description: "descripcion del trabajo a realizar"
         fechaIngresoTrabajo:
           type: string
           format: date-time
-          description: 'fecha de ingreso del vehiculo al taller'
+          description: "fecha de ingreso del vehiculo al taller"
         fechaIncioTrabajo:
           type: string
           format: date-time
-          description: 'fecha de inicio del trabajo'
+          description: "fecha de inicio del trabajo"
         fechaFinalizacionTrabajo:
           type: string
           format: date-time
-          description: 'fecha de finalizacion del trabajo'
+          description: "fecha de finalizacion del trabajo"
         estadoTrabajo:
-          $ref: '#/components/schemas/Estados_Trabajo'
+          $ref: "#/components/schemas/Estados_Trabajo"
         categoriaTrabajo:
-          $ref: '#/components/schemas/Categorias_Trabajo'
+          $ref: "#/components/schemas/Categorias_Trabajo"
         cotizacionTrabajo:
           type: number
           format: double
         clienteIdTrabajo:
-          $ref: '#/components/schemas/ClienteId'
+          $ref: "#/components/schemas/ClienteId"
         mecanicoIdTrabajo:
-          $ref: '#/components/schemas/MecanicoId'
+          $ref: "#/components/schemas/MecanicoId"
         vehiculoVINTrabajo:
-          $ref: '#/components/schemas/VehiculoVIN'
+          $ref: "#/components/schemas/VehiculoVIN"
         compejidadTrabajo:
-          $ref: '#/components/schemas/Compejidad_Trabajo'
+          $ref: "#/components/schemas/Compejidad_Trabajo"
         links:
           description: Enlaces de relación del trabajo
           readOnly: true
           type: object
           properties:
             vehiculo:
-              $ref: '#/components/schemas/Link'
+              $ref: "#/components/schemas/Link"
             cliente:
-              $ref: '#/components/schemas/Link'
+              $ref: "#/components/schemas/Link"
             mecanico:
-              $ref: '#/components/schemas/Link'
+              $ref: "#/components/schemas/Link"
             self:
-              $ref: '#/components/schemas/Link'
+              $ref: "#/components/schemas/Link"
             parent:
-              $ref: '#/components/schemas/Link'
+              $ref: "#/components/schemas/Link"
       required:
         - idTrabajo
         - descripcionTrabajo
@@ -182,11 +214,52 @@ components:
         - vehiculoVINTrabajo
         - compejidadTrabajo
       example:
-        { "idTrabajo": 1,"descripcionTrabajo": "descripcion del trabajo","fechaIngresoTrabajo": "2023-03-21T10:31:28.258Z", "fechaIncioTrabajo": "2023-03-21T10:31:28.258Z","fechaFinalizacionTrabajo": "2023-03-21T10:31:28.258Z","estadoTrabajo": "Creado", "categoriaTrabajo": "Reparacion","cotizacionTrabajo": 122, "clienteIdTrabajo": 1,"mecanicoIdTrabajo": "M01","vehiculoVINTrabajo": "D8PAHRVZ78UVX54PM","compejidadTrabajo": "Baja", "links":{"vehiculo": { "href": "https://www.example.com/vehiculos/D8PAHRVZ78UVX54PM","rel": "vehiculo_get vehiculo_options"},"cliente": {"href": "https://www.example.com/clientes/1","rel": "cliente_get cliente_options"},"mecanico": { "href": "https://www.example.com/mecanicos/M01","rel": "mecanico_get mecanico_options"},"self": {"href": "https://www.example.com/trabajos/1","rel": "trabajo_get trabajo_put trabajo_delete trabajo_options" },"parent": {"href": "https://www.example.com/trabajos", "rel": "trabajos_get trabajos_option" } }}
+        {
+          "idTrabajo": 1,
+          "descripcionTrabajo": "descripcion del trabajo",
+          "fechaIngresoTrabajo": "2023-03-21T10:31:28.258Z",
+          "fechaIncioTrabajo": "2023-03-21T10:31:28.258Z",
+          "fechaFinalizacionTrabajo": "2023-03-21T10:31:28.258Z",
+          "estadoTrabajo": "Creado",
+          "categoriaTrabajo": "Reparacion",
+          "cotizacionTrabajo": 122,
+          "clienteIdTrabajo": 1,
+          "mecanicoIdTrabajo": "M01",
+          "vehiculoVINTrabajo": "D8PAHRVZ78UVX54PM",
+          "compejidadTrabajo": "Baja",
+          "links":
+            {
+              "vehiculo":
+                {
+                  "href": "https://www.example.com/vehiculos/D8PAHRVZ78UVX54PM",
+                  "rel": "vehiculo_get vehiculo_options",
+                },
+              "cliente":
+                {
+                  "href": "https://www.example.com/clientes/1",
+                  "rel": "cliente_get cliente_options",
+                },
+              "mecanico":
+                {
+                  "href": "https://www.example.com/mecanicos/M01",
+                  "rel": "mecanico_get mecanico_options",
+                },
+              "self":
+                {
+                  "href": "https://www.example.com/trabajos/1",
+                  "rel": "trabajo_get trabajo_put trabajo_delete trabajo_options",
+                },
+              "parent":
+                {
+                  "href": "https://www.example.com/trabajos",
+                  "rel": "trabajos_get trabajos_option",
+                },
+            },
+        }
     IdTrabajo:
       type: integer
       format: int64
-      description: 'identificador unico del trabajo en el sistema de persistencia'
+      description: "identificador unico del trabajo en el sistema de persistencia"
       example: 1
     Estados_Trabajo:
       description: |
@@ -197,7 +270,7 @@ components:
         * `Terminado`: trabajo finalizado
       type: string
       default: "Creado"
-      enum: [ "Creado", "Planificado", "Iniciado", "Terminado" ]
+      enum: ["Creado", "Planificado", "Iniciado", "Terminado"]
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Creado", "Planificado", "Iniciado", "Terminado" ])
     Categorias_Trabajo:
@@ -208,7 +281,7 @@ components:
         * `Estetica`: trabajos de estetica y pintura
       type: string
       default: "Reparacion"
-      enum: [ "Reparacion", "Recambio", "Estetica"]
+      enum: ["Reparacion", "Recambio", "Estetica"]
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Reparacion", "Recambio", "Estetica"])
     ClienteId:
@@ -245,10 +318,10 @@ components:
         * `Alta`: trabajo de alta complejidad
       type: string
       default: "Baja"
-      enum: [ "Baja", "Media", "Alta"]
+      enum: ["Baja", "Media", "Alta"]
       # https://v6.fakerjs.dev/guide/
       x-faker: helpers.arrayElement([ "Baja", "Media", "Alta"])
-  
+
     HTTP_Problem:
       type: object
       externalDocs:
@@ -278,7 +351,7 @@ components:
             It may or may not yield further information if dereferenced.
     Link:
       description: Enlace de relación
-      title: '🔗 Link'
+      title: "🔗 Link"
       type: object
       properties:
         href:
@@ -287,8 +360,9 @@ components:
           format: uri
           x-faker: internet.url
         rel:
-          description: "Relación del recurso enlazado con el actual. Contiene una lista de tipos
-                    de relaciones separados por espacio."
+          description:
+            "Relación del recurso enlazado con el actual. Contiene una lista de tipos
+            de relaciones separados por espacio."
           type: string
           x-faker: lorem.words
       example:
@@ -300,45 +374,61 @@ components:
       schema:
         type: string
         pattern: "[0-9a-f]*"
-        example:
-          33a64df551425fcc
+        example: 33a64df551425fcc
     Allow:
       description: Lista de métodos HTTP soportados
       schema:
         type: string
       example: GET, DELETE, PUT, OPTIONS
     Location:
-      description: '`URI` del nuevo recurso'
+      description: "`URI` del nuevo recurso"
       schema:
         type: string
         format: uri
         x-faker: internet.url
-        example:
-          https://example.com/api/v1/Trabajos/1
+        example: https://example.com/api/v1/Trabajos/1
   responses:
     Response_404:
-      description: '`NOT FOUND`: recurso no disponible'
+      description: "`NOT FOUND`: recurso no disponible"
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/HTTP_Problem'
+            $ref: "#/components/schemas/HTTP_Problem"
           examples:
             response-http-404:
-              $ref: '#/components/examples/response-http-404'
+              $ref: "#/components/examples/response-http-404"
     Response_500:
-      description: '`INTERNAL SERVER ERROR`: error interno del servidor'
+      description: "`INTERNAL SERVER ERROR`: error interno del servidor"
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/HTTP_Problem'
+            $ref: "#/components/schemas/HTTP_Problem"
           examples:
             response-http-500:
-              $ref: '#/components/examples/response-http-500'
+              $ref: "#/components/examples/response-http-500"
+    Response_422:
+      description: "`UNPROCESSABLE ENTITY` Falta alguno de los atributos obligatorios o son incorrectos."
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/HTTP_Problem"
+          examples:
+            response-http-422:
+              $ref: "#/components/examples/response-http-422"
+    Response_400:
+      description: "`BAD REQUEST` El identificador único ya existe."
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/HTTP_Problem"
+          examples:
+            response-http-400:
+              $ref: "#/components/examples/response-http-400"
   parameters:
     orderParam:
       name: order
       in: query
-      description: 'Criterio de ordenación: `id` | `fechaIngresoTrabajo`'
+      description: "Criterio de ordenación: `id` | `fechaIngresoTrabajo`"
       required: false
       allowEmptyValue: false
       schema:
@@ -349,7 +439,7 @@ components:
     orderingParam:
       name: ordering
       in: query
-      description: 'Ordenación: `ASC` | `DESC`'
+      description: "Ordenación: `ASC` | `DESC`"
       required: false
       allowEmptyValue: false
       schema:
@@ -360,7 +450,7 @@ components:
     pageParam:
       name: page
       in: query
-      description: 'Número de página'
+      description: "Número de página"
       required: false
       allowEmptyValue: false
       schema:
@@ -372,7 +462,7 @@ components:
       description: Identificador único del trabajo dentro del sistema
       required: true
       schema:
-        $ref: '#/components/schemas/IdTrabajo'
+        $ref: "#/components/schemas/IdTrabajo"
 
   examples:
     response-http-404:
@@ -383,9 +473,58 @@ components:
         detail: El recurso no está disponible.
         instance: about:blank
     response-http-500:
-        value:
-          type: https://httpstatuses.com/500
-          title: INTERNAL SERVER ERROR
-          status: 500
-          detail: Ha ocurrido un error en el servidor.
-          instance: about:blan
+      value:
+        type: https://httpstatuses.com/500
+        title: INTERNAL SERVER ERROR
+        status: 500
+        detail: Ha ocurrido un error en el servidor.
+        instance: about:blan
+    response-http-400:
+      value:
+        type: https://httpstatuses.com/400
+        title: UNPROCESSABLE ENTITY
+        status: 400
+        detail: El identificador único ya existe
+        instance: about:blank
+    response-http-422:
+      value:
+        type: https://httpstatuses.com/422
+        title: UNPROCESSABLE ENTITY
+        status: 422
+        detail: Falta alguno de los atributos obligatorios o contiene un valor no admitido
+        instance: about:blank
+  requestBodies:
+    trabajoRB:
+      description: |
+        Datos del trabajo
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - fechaIngresoTrabajo
+              - fechaSalidaTrabajo
+              - mecanicoId
+              - vehiculoVIN
+              - compejidadTrabajo
+              - cotizacionTrabajo
+              - categoriaTrabajo
+            properties:
+              fechaIngresoTrabajo:
+                type: string
+                format: date-time
+              fechaSalidaTrabajo:
+                type: string
+                format: date-time
+              mecanicoId:
+                $ref: "#/components/schemas/MecanicoId"
+              vehiculoVIN:
+                $ref: "#/components/schemas/VehiculoVIN"
+              compejidadTrabajo:
+                $ref: "#/components/schemas/Compejidad_Trabajo"
+              cotizacionTrabajo:
+                type: number
+                format: double
+              categoriaTrabajo:
+                $ref: "#/components/schemas/Categorias_Trabajo"
