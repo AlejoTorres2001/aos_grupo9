@@ -162,12 +162,15 @@ paths:
         | ------------| ------------| ---------------------------------------|
         | **204**     | NO CONTENT  | El trabajo ha sido eliminado con éxito |
         | **404**     | NOT FOUND   | Si el trabajo no existe                |
+        | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
       operationId: trabajo_delete
       responses:
         '204':
           description: trabajo eliminado &lt;Cuerpo de la respuesta vacío&gt;
         '404':
           $ref: '#/components/responses/Response_404'
+        '500':
+          $ref: '#/components/responses/Response_500'
 
     options:
       security: []
@@ -182,6 +185,10 @@ paths:
           headers:
             Allow:
               $ref: '#/components/headers/Allow'
+        '500':
+          $ref: '#/components/responses/Response_500'
+        '404':
+          $ref: '#/components/responses/Response_404'
 components:
   schemas:
     Trabajo:
