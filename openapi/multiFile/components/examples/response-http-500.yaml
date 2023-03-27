@@ -3,4 +3,4 @@ value:
   title: INTERNAL SERVER ERROR
   status: 500
   detail: Ha ocurrido un error en el servidor.
-  instance: about:blan
+  instance: about:blank

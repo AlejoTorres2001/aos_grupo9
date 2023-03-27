@@ -549,7 +549,7 @@ components:
         title: INTERNAL SERVER ERROR
         status: 500
         detail: Ha ocurrido un error en el servidor.
-        instance: about:blan
+        instance: about:blank
     response-http-400:
       value:
         type: https://httpstatuses.com/400
