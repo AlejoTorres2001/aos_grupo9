@@ -1,0 +1,90 @@
+title: Trabajo
+description: >-
+  Representacion del recurso trabajo, identifica el ingreso de un vehiculo al
+  taller, estado y descripcion del proceso de reparacion necesario
+type: object
+properties:
+  idTrabajo:
+    $ref: ./IdTrabajo.yaml
+  descripcionTrabajo:
+    type: string
+    description: descripcion del trabajo a realizar
+  fechaIngresoTrabajo:
+    type: string
+    format: date-time
+    description: fecha de ingreso del vehiculo al taller
+  fechaIncioTrabajo:
+    type: string
+    format: date-time
+    description: fecha de inicio del trabajo
+  fechaFinalizacionTrabajo:
+    type: string
+    format: date-time
+    description: fecha de finalizacion del trabajo
+  estadoTrabajo:
+    $ref: ./Estados_Trabajo.yaml
+  categoriaTrabajo:
+    $ref: ./Categorias_Trabajo.yaml
+  cotizacionTrabajo:
+    type: number
+    format: double
+  clienteIdTrabajo:
+    $ref: ./ClienteId.yaml
+  mecanicoIdTrabajo:
+    $ref: ./MecanicoId.yaml
+  vehiculoVINTrabajo:
+    $ref: ./VehiculoVIN.yaml
+  compejidadTrabajo:
+    $ref: ./Compejidad_Trabajo.yaml
+  links:
+    description: Enlaces de relación del trabajo
+    readOnly: true
+    type: object
+    properties:
+      vehiculo:
+        $ref: ./Link.yaml
+      cliente:
+        $ref: ./Link.yaml
+      mecanico:
+        $ref: ./Link.yaml
+      self:
+        $ref: ./Link.yaml
+      parent:
+        $ref: ./Link.yaml
+required:
+  - idTrabajo
+  - descripcionTrabajo
+  - estadoTrabajo
+  - categoriaTrabajo
+  - clienteIdTrabajo
+  - vehiculoVINTrabajo
+  - compejidadTrabajo
+example:
+  idTrabajo: 1
+  descripcionTrabajo: descripcion del trabajo
+  fechaIngresoTrabajo: '2023-03-21T10:31:28.258Z'
+  fechaIncioTrabajo: '2023-03-21T10:31:28.258Z'
+  fechaFinalizacionTrabajo: '2023-03-21T10:31:28.258Z'
+  estadoTrabajo: Creado
+  categoriaTrabajo: Reparacion
+  cotizacionTrabajo: 122
+  clienteIdTrabajo: 1
+  mecanicoIdTrabajo: M01
+  vehiculoVINTrabajo: D8PAHRVZ78UVX54PM
+  compejidadTrabajo: Baja
+  links:
+    vehiculo:
+      href: https://www.example.com/vehiculos/D8PAHRVZ78UVX54PM
+      rel: vehiculo_get vehiculo_options
+    cliente:
+      href: https://www.example.com/clientes/1
+      rel: cliente_get cliente_options
+    mecanico:
+      href: https://www.example.com/mecanicos/M01
+      rel: mecanico_get mecanico_options
+    self:
+      href: https://www.example.com/trabajos/1
+      rel: trabajo_get trabajo_put trabajo_delete trabajo_options
+    parent:
+      href: https://www.example.com/trabajos
+      rel: trabajos_get trabajos_option

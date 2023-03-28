@@ -1,0 +1,8 @@
+description: '`INTERNAL SERVER ERROR`: error interno del servidor'
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/HTTP_Problem.yaml
+    examples:
+      response-http-500:
+        $ref: ../examples/response-http-500.yaml

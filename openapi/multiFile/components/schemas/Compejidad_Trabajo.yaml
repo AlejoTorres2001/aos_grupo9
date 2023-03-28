@@ -1,0 +1,12 @@
+description: |
+  complejidad del trabajo:
+  * `Baja`: trabajo de baja complejidad
+  * `Media`: trabajo de media complejidad
+  * `Alta`: trabajo de alta complejidad
+type: string
+default: Baja
+enum:
+  - Baja
+  - Media
+  - Alta
+x-faker: helpers.arrayElement([ "Baja", "Media", "Alta"])

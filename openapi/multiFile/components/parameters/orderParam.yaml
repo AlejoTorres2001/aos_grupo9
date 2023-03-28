@@ -1,0 +1,10 @@
+name: order
+in: query
+description: 'Criterio de ordenación: `id` | `fechaIngresoTrabajo`'
+required: false
+allowEmptyValue: false
+schema:
+  type: string
+  enum:
+    - id
+    - fechaIngresoTrabajo

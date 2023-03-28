@@ -1,0 +1,6 @@
+name: idTrabajoParam
+in: path
+description: Identificador único del trabajo dentro del sistema
+required: true
+schema:
+  $ref: ../schemas/IdTrabajo.yaml

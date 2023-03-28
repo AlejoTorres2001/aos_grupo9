@@ -1,0 +1,7 @@
+description: |
+  identificador del vehiculo dentro del sistema
+type: string
+pattern: '[A-HJ-NPR-Z0-9]{17}'
+default: D8PAHRVZ78UVX54PM
+example: D8PAHRVZ78UVX54PM
+x-faker: helpers.regexpStyleStringParse('[A-HJ-NPR-Z0-9]{17}')
