@@ -4,14 +4,14 @@ info:
   version: 1.0.0
   title: AOS 2023 Grupo3 Trabajos
   description: >
-    ## **[AOS 2023]** API REST para la gestión de Trabajos .
+    ## **[AOS 2023]** API REST para la gestión de Trabajos.
+
+    ### Grupo 9 - Subsistema 3
+
+    #### Licencia
   license:
     name: MIT
     url: "https://opensource.org/licenses/MIT"
-  contact:
-    name: Máster Universitario en Ingeniería Web
-    url: "https://miw.etsisi.upm.es/"
-    email: miw.etsisi@upm.es
 
 servers:
   - url: http://127.0.0.1:80/api/v1
