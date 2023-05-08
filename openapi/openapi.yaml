@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   version: 1.0.0
-  title: AOS 2023 Grupo3 Trabajos
+  title: AOS 2023 Grupo 9 Trabajos
   description: >
     ## **[AOS 2023]** API REST para la gestión de Trabajos.
 
