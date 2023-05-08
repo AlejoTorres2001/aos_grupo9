@@ -209,9 +209,6 @@ paths:
       responses:
         '200':
           description: trabajo actualizado
-          headers:
-            ETag:
-              $ref: "#/components/headers/ETag"
           content:
             application/json:
               schema:
