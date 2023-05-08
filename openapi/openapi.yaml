@@ -204,6 +204,8 @@ paths:
         | **500**     | INTERNAL SERVER ERROR   | Error interno del servidor         |
         | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos obligatorios|
       operationId: trabajo_put
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
       requestBody:
         $ref: "#/components/requestBodies/trabajoPutRB"
       responses:
@@ -493,6 +495,14 @@ components:
             response-http-400:
               $ref: "#/components/examples/response-http-400"
   parameters:
+    ifMatchParam:
+      name: If-Match
+      in: header
+      description: ETag actual del recurso que se desea modificar
+      required: true
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
     orderParam:
       name: order
       in: query
