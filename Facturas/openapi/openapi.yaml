@@ -320,7 +320,7 @@ components:
                          
                          ]
                      }
-      }
+        }
       }
     
     #Aqui encontramos los atributos de la factura
@@ -596,14 +596,14 @@ components:
       value:
         facturas:
           - { "factura": {"id_factura":"2023-0000",
-          "estado":"Emitida",
-          "VIN_coche":"1GCHK23255F889350",
-          "Id_cliente":"09975463Y",
-          "fecha_factura":"2023-01-22",
-          "trabajos":[
+            "estado":"Emitida",
+            "VIN_coche":"1GCHK23255F889350",
+            "Id_cliente":"09975463Y",
+            "fecha_factura":"2023-01-22",
+            "trabajos":[
               "T234","T777"
             ],
-          "importe_total":"223.40€",
+            "importe_total":"223.40€",
                 "links": {
                        "parent": {
                          "href": "https://tallermecanico.com/api/v1/facturas",
