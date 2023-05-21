@@ -1,6 +1,0 @@
-value:
-  type: https://httpstatuses.com/500
-  title: INTERNAL SERVER ERROR
-  status: 500
-  detail: Ha ocurrido un error en el servidor.
-  instance: about:blank

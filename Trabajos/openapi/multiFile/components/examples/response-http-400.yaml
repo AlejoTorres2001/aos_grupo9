@@ -1,6 +1,0 @@
-value:
-  type: https://httpstatuses.com/400
-  title: UNPROCESSABLE ENTITY
-  status: 400
-  detail: El identificador único ya existe
-  instance: about:blank

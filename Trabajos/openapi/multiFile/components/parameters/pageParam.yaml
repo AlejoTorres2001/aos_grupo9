@@ -1,8 +1,0 @@
-name: page
-in: query
-description: Número de página
-required: false
-allowEmptyValue: false
-schema:
-  type: integer
-  minimum: 1

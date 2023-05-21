@@ -1,4 +1,0 @@
-type: integer
-format: int64
-description: identificador unico del trabajo en el sistema de persistencia
-example: 1

@@ -1,6 +1,0 @@
-description: '`URI` del nuevo recurso'
-schema:
-  type: string
-  format: uri
-  x-faker: internet.url
-  example: https://example.com/api/v1/Trabajos/1

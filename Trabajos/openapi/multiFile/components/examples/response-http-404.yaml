@@ -1,6 +1,0 @@
-value:
-  type: https://httpstatuses.com/404
-  title: NOT FOUND
-  status: 404
-  detail: El recurso no está disponible.
-  instance: about:blank
