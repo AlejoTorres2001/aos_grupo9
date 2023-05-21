@@ -28,3 +28,6 @@ algo similar sucede con la redireccion de los frontends, pero en este caso como 
 - si probamos cada servicio por separado. Es decir realizando peticiones a localhost en los puertos correspondientes a cada servicio y en las rutas sin el prefijo de /api/v1, nos damos cuenta que responden correctamente, el problema lo esta dando el proxy, nose si por un error en la config de Caddy o por algun problema en la redireccion de los puertos o algo mas profundo.
 
 tal vez ustedes le encuentran algun error que se me esta escapando
+
+
+Para levantar todo solo hay que correr el comando docker compose up 
