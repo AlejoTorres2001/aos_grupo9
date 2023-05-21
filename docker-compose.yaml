@@ -26,7 +26,7 @@ services:
       container_name: aos2023_logs_mock
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4011:4011"
+        - "4011:4010"
       volumes:
         - ./Logs/openapi:/aos:ro
 
@@ -45,7 +45,7 @@ services:
       container_name: aos2023_facturas_mock
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4012:4012"
+        - "4012:4010"
       volumes:
         - ./Facturas/openapi:/aos:ro
 
@@ -59,12 +59,12 @@ services:
       volumes:
         - ./Facturas/openapi:/aos:ro
 
-    notificaciones_backend:
+    notificaciones_mock_backend:
       image: stoplight/prism:4
       container_name: aos2023_notificaciones
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4013:4013"
+        - "4013:4010"
       volumes:
         - ./Notificaciones/openapi:/aos:ro
 
@@ -83,7 +83,7 @@ services:
       container_name: aos2023_recambios_mock
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4014:4014"
+        - "4014:4010"
       volumes:
         - ./Recambios/openapi:/aos:ro
 
@@ -102,9 +102,11 @@ services:
       container_name: aos2023_trabajos_mock
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4015:4015"
+        - "4015:4010"
       volumes:
         - ./Trabajos/openapi:/aos:ro
+
+
 
     trabajos_frontend:
       image: swaggerapi/swagger-ui:latest
@@ -116,12 +118,14 @@ services:
       volumes:
         - ./Trabajos/openapi:/aos:ro
 
+    
+
     vehiculos_mock_backend:
       image: stoplight/prism:4
       container_name: aos2023_vehiculos_mock
       command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
-        - "4016:4016"
+        - "4016:4010"
       volumes:
         - ./Vehiculos/openapi:/aos:ro
 
@@ -134,3 +138,19 @@ services:
         SWAGGER_JSON: /aos/openapi.yaml
       volumes:
         - ./Vehiculos/openapi:/aos:ro
+    proxy:
+        image: caddy:latest
+        container_name: caddy_proxy
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./caddy_data:/data
+        ports:
+            - "80:80"
+        depends_on:
+            - trabajos_mock_backend
+            - clientes_mock_backend
+            - logs_mock_backend
+            - facturas_mock_backend
+            - recambios_mock_backend
+            - notificaciones_mock_backend
+            - vehiculos_mock_backend
