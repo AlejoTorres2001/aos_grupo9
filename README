@@ -1,1 +1,30 @@
-# PEGARLE AL 80 EL CADDY ANDA BIEN!!!
+# Instrucciones
+
+En cada carpeta se encuentra la especificacion del servicio correspondiente
+
+lo que hice hasta ahora corresponde a la part de la tarea que habla sobre el despliegue usando docker compose
+
+en el archivo docker-compose.yml se encuentra la configuracion de los servicios que se van a desplegar, cada uno cuenta con un servidor de mock y la ui de swagger
+
+Adicionalmente hay un servicio de proxy que se encarga de redirigir las peticiones a los servicios correspondientes
+
+## En cada servicio
+
+para el backend de cada servicio estoy mapeando el puerto default de prism a un puerto en la maquina host desde el 4010 hasta el 4016, de esta manera no tengo que cambiar el puerto por defecto del contenedor
+
+para el frontend sucede algo similar pero desde el 8000 al 8006
+
+## En el proxy
+
+Estoy haciendo que este servicio se levante luego de todos los otros, de esta manera no tengo que hacer un sleep para esperar a que los otros servicios esten listos. en la configuracion de Caddy estoy redirigiendo el trafico a cada contenedor en base a la uri. fijense que mapeo directamente al nombre del contenedor, junto con el puert 4010 en todos los casos (porque esta redireccion se esta produciendo dentro de la network bridge de docker compose)
+
+algo similar sucede con la redireccion de los frontends, pero en este caso como exponemos la ui a la maquina host directamente redirigo al purte correspondiente, que ya estaba previamente mapeado al 8000 del contenedor que esta corriendo la  UI
+
+## Problemas
+
+- Creo que hay algun error en el formato  de la config de Caddy, porque pude correrlo y probarlo una sola  vez (donde redirigia correctamente a cada contender el trafico dependiendo de la uri) Ejemplo
+: haciamos una peticion a http://127.0.0.1:80/api/v1/trabajos y nos respondia el serviciod e trabajos con la info de GET.
+
+- si probamos cada servicio por separado. Es decir realizando peticiones a localhost en los puertos correspondientes a cada servicio y en las rutas sin el prefijo de /api/v1, nos damos cuenta que responden correctamente, el problema lo esta dando el proxy, nose si por un error en la config de Caddy o por algun problema en la redireccion de los puertos o algo mas profundo.
+
+tal vez ustedes le encuentran algun error que se me esta escapando
