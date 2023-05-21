@@ -4,10 +4,6 @@ route /api/v1/trabajos/* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_trabajos_mock:4010
 }
-route /api/v1/clientes/* {
-        uri strip_prefix /api/v1
-        reverse_proxy aos2023_clientes_mock:4010
-}
 route /api/v1/logs/* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_logs_mock:4010
@@ -24,7 +20,35 @@ route /api/v1/recambios/* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_recambios_mock:4010
 }
-# Redirección a Swagger-UI de la "página principal" desde http://127.0.0.1
+route /api/v1/vehiculos/* {
+        uri strip_prefix /api/v1
+        reverse_proxy aos2023_vehiculos_mock:4010
+}
+
+route /api/v1/clientes/* {
+        uri strip_prefix /api/v1
+        reverse_proxy aos2023_clientes_mock:4010
+}
+
 route /trabajos {
-        redir aos2023_trabajos_mock:8005
+        redir http://127.0.0.1:8005/
+}
+
+route /clientes {
+        redir http://127.0.0.1:8000/
+}
+route /logs {
+        redir http://127.0.0.1:8001/
+}
+route /facturas {
+        redir http://127.0.0.1:8002/
+}
+route /notificaciones {
+        redir http://127.0.0.1:8003/
+}
+route /recambios {
+        redir http://127.0.0.1:8004/
+}
+route /vehiculos {
+        redir http://127.0.0.1:8006/
 }
