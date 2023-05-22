@@ -1,31 +1,31 @@
 http://127.0.0.1
 
-route /api/v1/trabajos/* {
+route /api/v1/trabajos* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_trabajos_mock:4010
 }
-route /api/v1/logs/* {
+route /api/v1/logs* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_logs_mock:4010
 }
-route /api/v1/facturas/* {
+route /api/v1/facturas* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_facturas_mock:4010
 }
-route /api/v1/notificaciones/* {
+route /api/v1/notificaciones* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_notificaciones:4010
 }
-route /api/v1/recambios/* {
+route /api/v1/recambios* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_recambios_mock:4010
 }
-route /api/v1/vehiculos/* {
+route /api/v1/vehiculos* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_vehiculos_mock:4010
 }
 
-route /api/v1/clientes/* {
+route /api/v1/clientes* {
         uri strip_prefix /api/v1
         reverse_proxy aos2023_clientes_mock:4010
 }
