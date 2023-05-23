@@ -31,7 +31,3 @@ tal vez ustedes le encuentran algun error que se me esta escapando
 
 
 Para levantar todo solo hay que correr el comando docker compose up 
-
-
-
-docker run -p 4015:4010 -p 8005:8080 trabajos-grupo9   
