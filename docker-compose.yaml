@@ -98,7 +98,7 @@ services:
         - ./Recambios/openapi:/aos:ro
 
     trabajos:
-      image: alejotorres2001/aos2023
+      image: ivanmolinabe/aos2023
       container_name: aos2023_trabajos_mock
       ports:
         - "4015:4010"
