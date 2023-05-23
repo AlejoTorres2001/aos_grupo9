@@ -97,28 +97,12 @@ services:
       volumes:
         - ./Recambios/openapi:/aos:ro
 
-    trabajos_mock_backend:
-      image: stoplight/prism:4
+    trabajos:
+      image: alejotorres2001/aos2023
       container_name: aos2023_trabajos_mock
-      command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
       ports:
         - "4015:4010"
-      volumes:
-        - ./Trabajos/openapi:/aos:ro
-
-
-
-    trabajos_frontend:
-      image: swaggerapi/swagger-ui:latest
-      container_name: aos2023_trabajos_ui
-      ports:
         - "8005:8080"
-      environment:
-        SWAGGER_JSON: /aos/openapi.yaml
-      volumes:
-        - ./Trabajos/openapi:/aos:ro
-
-    
 
     vehiculos_mock_backend:
       image: stoplight/prism:4
@@ -147,7 +131,7 @@ services:
         ports:
             - "80:80"
         depends_on:
-            - trabajos_mock_backend
+            - trabajos
             - clientes_mock_backend
             - logs_mock_backend
             - facturas_mock_backend
