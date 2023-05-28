@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aos2023-clientes-mock
+  name: clientes-mock
   labels: 
-    app: aos2023-clientes-mock
+    app: clientes
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aos2023-clientes-mock
+      app: clientes
   template:
     metadata:
       labels:
         app/aos-grupo9-default: "true"
-        app: aos2023-clientes-mock
+        app: clientes
     spec:
       containers:
-        - name: aos2023-clientes-mock
+        - name: clientes-mock
           image: stoplight/prism:4
           args:
             - mock

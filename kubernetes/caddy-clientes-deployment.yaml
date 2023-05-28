@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientes-ui
+  name: caddy-proxy
   labels: 
     app: clientes
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: clientes
@@ -16,18 +16,14 @@ spec:
         app: clientes
     spec:
       containers:
-        - name: clientes-ui
-          image: swaggerapi/swagger-ui:latest
-          env:
-            - name: SWAGGER_JSON
-              value: "/openapi/openapi.yaml"
+        - name: caddy-proxy
+          image: caddy:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           volumeMounts:
-            - mountPath: "/openapi"
+            - mountPath: "/etc/caddy"
               name: volume
       volumes:
         - name: volume
           persistentVolumeClaim:
-            claimName: aos-grupo9-pvc
-          
+            claimName: caddy-pvc
