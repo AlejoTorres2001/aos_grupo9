@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: aos2023-clientes-ui
   labels: 
-    io.kompose.service: aos2023-clientes-ui
+    app: aos2023-clientes-ui
 spec:
   replicas: 1
   selector:
@@ -12,13 +12,22 @@ spec:
   template:
     metadata:
       labels:
+        app/aos-grupo9-default: "true"
         app: aos2023-clientes-ui
     spec:
       containers:
         - name: aos2023-clientes-ui
-          image: jcelayardz/api-gestion-clientes:latest
+          image: swaggerapi/swagger-ui:latest
           env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi.yaml
+              value: "/openapi/openapi.yaml"
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - mountPath: "/openapi"
+              name: volume
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: aos-grupo9-pvc
+          

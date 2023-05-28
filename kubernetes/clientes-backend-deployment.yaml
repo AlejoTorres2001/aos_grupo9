@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aos2023-clientes-mock
+  labels: 
+    app: aos2023-clientes-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aos2023-clientes-mock
+  template:
+    metadata:
+      labels:
+        app/aos-grupo9-default: "true"
+        app: aos2023-clientes-mock
+    spec:
+      containers:
+        - name: aos2023-clientes-mock
+          image: stoplight/prism:4
+          args:
+            - mock
+            - --cors
+            - -h
+            - 0.0.0.0
+            - "/openapi/openapi.yaml"
+          ports:
+            - containerPort: 4010
+          volumeMounts:
+            - mountPath: "/openapi"
+              name: volume
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: aos-grupo9-pvc

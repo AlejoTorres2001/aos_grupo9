@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: clientes-frontend
 spec:
+  type: NodePort
   selector:
-    io.kompose.service: aos2023_clientes_ui
+    app: aos2023-clientes-ui
   ports:
     - port: 8000
+      name: frontend
       targetPort: 8080
-  type: ClusterIP
-
+      nodePort: 30005
