@@ -142,7 +142,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/Facturas/openapi.yaml
+              value: /openapi/openapi/Facturas/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023facturas-ui
           ports:
@@ -210,7 +210,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/logs/openapi.yaml
+              value: /openapi/openapi/Logs/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023logs-ui
           ports:
@@ -297,7 +297,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/notificaciones/openapi.yaml
+              value: /openapi/openapi/Notificaciones/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023notificaciones-ui
           ports:
@@ -364,7 +364,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/notificaciones/openapi.yaml
+              value: /openapi/openapi/Notificaciones/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023notificaciones-ui
           ports:
@@ -411,7 +411,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/recambios/openapi.yaml
+              value: /openapi/openapi/Recambios/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023recambios-ui
           ports:
@@ -478,8 +478,8 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/openapi.yaml
-          image: jesuslopezupm/aos2023:latest
+              value: /openapi/openapi/Trabajos/openapi/openapi.yaml
+          image: ivanmolinabe/aos2023:latest
           name: aos2023trabajos-ui
           ports:
             - containerPort: 8080
@@ -546,7 +546,7 @@ spec:
       containers:
         - env:
             - name: SWAGGER_JSON
-              value: /openapi/openapi/vehiculos/openapi.yaml
+              value: /openapi/openapi/Vehiculos/openapi/openapi.yaml
           image: swaggerapi/swagger-ui:latest
           name: aos2023vehiculos-ui
           ports:
@@ -735,7 +735,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/clientes/openapi.yaml"
+        - "/openapi/openapi/Clientes/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -759,7 +759,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/facturas/openapi.yaml"
+        - "/openapi/openapi/Facturas/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -782,7 +782,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/logs/openapi.yaml"
+        - "/openapi/openapi/Logs/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -805,7 +805,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/notificaciones/openapi.yaml"
+        - "/openapi/openapi/Notificaciones/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -828,7 +828,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/recambios/openapi.yaml"
+        - "/openapi/openapi/Recambios/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -851,7 +851,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/openapi.yaml"
+        - "/openapi/openapi/Trabajos/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
@@ -874,7 +874,7 @@ spec:
       image: stoplight/prism
       args:
         - "mock"
-        - "/openapi/openapi/vehiculos/openapi.yaml"
+        - "/openapi/openapi/Vehiculos/openapi/openapi.yaml"
         - "--port=4010"
       ports:
         - containerPort: 4010
