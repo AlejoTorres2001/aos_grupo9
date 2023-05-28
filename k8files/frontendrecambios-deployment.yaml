@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendrecambios
+  name: frontendrecambios
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendrecambios
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo1-default: "true"
+        io.kompose.service: frontendrecambios
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /aos/recambios/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023recambios-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /aos
+              name: frontendrecambios-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: frontendrecambios-claim0
+          persistentVolumeClaim:
+            claimName: frontendrecambios-claim0
+            readOnly: true
+status: {}

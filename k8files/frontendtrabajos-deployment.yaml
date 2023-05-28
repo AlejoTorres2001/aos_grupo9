@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendtrabajos
+  name: frontendtrabajos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendtrabajos
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo1-default: "true"
+        io.kompose.service: frontendtrabajos
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /aos/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023trabajos-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /aos
+              name: frontendtrabajos-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: frontendtrabajos-claim0
+          persistentVolumeClaim:
+            claimName: frontendtrabajos-claim0
+            readOnly: true
+status: {}

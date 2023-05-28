@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendnotificaciones
+  name: mock-backendnotificaciones
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mock-backendnotificaciones
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo1-default: "true"
+        io.kompose.service: mock-backendnotificaciones
+    spec:
+      containers:
+        - args:
+            - mock
+            - --cors
+            - -h
+            - 0.0.0.0
+            - /aos/notificaciones/openapi.yaml
+          image: stoplight/prism:latest
+          name: aos2023notificaciones-mock
+          ports:
+            - containerPort: 4010
+          resources: {}
+          volumeMounts:
+            - mountPath: /aos
+              name: mock-backendnotificaciones-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: mock-backendnotificaciones-claim0
+          persistentVolumeClaim:
+            claimName: mock-backendnotificaciones-claim0
+            readOnly: true
+status: {}

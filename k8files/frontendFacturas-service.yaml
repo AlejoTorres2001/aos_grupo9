@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendfacturas
+  name: frontendFacturas
+spec:
+  ports:
+    - name: "8003"
+      port: 8003
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendfacturas
+status:
+  loadBalancer: {}

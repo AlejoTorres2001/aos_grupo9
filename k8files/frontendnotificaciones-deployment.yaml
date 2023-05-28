@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendnotificaciones
+  name: frontendnotificaciones
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendnotificaciones
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo1-default: "true"
+        io.kompose.service: frontendnotificaciones
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /aos/notificaciones/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023notificaciones-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /aos
+              name: frontendnotificaciones-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: frontendnotificaciones-claim0
+          persistentVolumeClaim:
+            claimName: frontendnotificaciones-claim0
+            readOnly: true
+status: {}

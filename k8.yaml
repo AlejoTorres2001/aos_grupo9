@@ -1,0 +1,951 @@
+#!Volumen Persistente
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openapi-volume
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /openapi/openapi
+---
+
+#!Volumen Persistente Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openapi-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+#!Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: null
+  name: aosmicroservicio-grupo9-default
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/aosmicroservicio-grupo9-default: "true"
+  podSelector:
+    matchLabels:
+      io.kompose.network/aosmicroservicio-grupo9-default: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendclientes
+  name: frontendclientes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendclientes
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendclientes
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/Clientes/openapi/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023clientes-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendclientes
+  name: frontendclientes
+spec:
+  ports:
+    - name: "8001"
+      port: 8001
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendclientes
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendfacturas
+  name: frontendfacturas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendfacturas
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendfacturas
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/Facturas/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023facturas-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendfacturas
+  name: frontendfacturas
+spec:
+  ports:
+    - name: "8003"
+      port: 8003
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendfacturas
+status:
+  loadBalancer: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendlogs
+  name: frontendlogs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendlogs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendlogs
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/logs/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023logs-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendlogs
+  name: frontendlogs
+spec:
+  ports:
+    - name: "8006"
+      port: 8006
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendlogs
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendnotificaciones
+  name: frontendnotificaciones
+spec:
+  ports:
+    - name: "8005"
+      port: 8005
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendnotificaciones
+status:
+  loadBalancer: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendnotificaciones
+  name: frontendnotificaciones
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendnotificaciones
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendnotificaciones
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/notificaciones/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023notificaciones-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendnotificaciones
+  name: frontendnotificaciones
+spec:
+  ports:
+    - name: "8005"
+      port: 8005
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendnotificaciones
+status:
+  loadBalancer: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendnotificaciones
+  name: frontendnotificaciones
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendnotificaciones
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendnotificaciones
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/notificaciones/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023notificaciones-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendrecambios
+  name: frontendrecambios
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendrecambios
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendrecambios
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/recambios/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023recambios-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendrecambios
+  name: frontendrecambios
+spec:
+  ports:
+    - name: "8004"
+      port: 8004
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendrecambios
+status:
+  loadBalancer: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendtrabajos
+  name: frontendtrabajos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendtrabajos
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendtrabajos
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/openapi.yaml
+          image: jesuslopezupm/aos2023:latest
+          name: aos2023trabajos-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendtrabajos
+  name: frontendtrabajos
+spec:
+  ports:
+    - name: "8000"
+      port: 8000
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendtrabajos
+status:
+  loadBalancer: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendvehiculos
+  name: frontendvehiculos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendvehiculos
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: frontendvehiculos
+    spec:
+      containers:
+        - env:
+            - name: SWAGGER_JSON
+              value: /openapi/openapi/vehiculos/openapi.yaml
+          image: swaggerapi/swagger-ui:latest
+          name: aos2023vehiculos-ui
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendvehiculos
+  name: frontendvehiculos
+spec:
+  ports:
+    - name: "8002"
+      port: 8002
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontendvehiculos
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendclientes
+  name: mock-backendclientes
+spec:
+  ports:
+    - name: "4011"
+      port: 4011
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendclientes
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendfacturas
+  name: mockbackendfacturas
+spec:
+  ports:
+    - name: "4013"
+      port: 4013
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendfacturas
+status:
+  loadBalancer: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendlogs
+  name: mockbackendlogs
+spec:
+  ports:
+    - name: "4016"
+      port: 4016
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendlogs
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendnotificaciones
+  name: mockbackendnotificaciones
+spec:
+  ports:
+    - name: "4015"
+      port: 4015
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendnotificaciones
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendrecambios
+  name: mockbackendrecambios
+spec:
+  ports:
+    - name: "4014"
+      port: 4014
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendrecambios
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendtrabajos
+  name: mockbackendtrabajos
+spec:
+  ports:
+    - name: "4010"
+      port: 4010
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendtrabajos
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendvehiculos
+  name: mockbackendvehiculos
+spec:
+  ports:
+    - name: "4012"
+      port: 4012
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendvehiculos
+status:
+  loadBalancer: {}
+
+#Pods
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-clientes
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/clientes/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-facturas
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/facturas/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-logs
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/logs/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-notificaciones
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/notificaciones/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-recambios
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/recambios/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-trabajos
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-backend-vehiculos
+spec:
+  containers:
+    - name: prism
+      image: stoplight/prism
+      args:
+        - "mock"
+        - "/openapi/openapi/vehiculos/openapi.yaml"
+        - "--port=4010"
+      ports:
+        - containerPort: 4010
+      volumeMounts:
+        - mountPath: /openapi/openapi
+          name: openapi-volume
+  volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: proxylogs
+  name: proxylogs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: proxylogs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/aosmicroservicio-grupo9-default: "true"
+        io.kompose.service: proxylogs
+    spec:
+      containers:
+        - image: caddy:latest
+          name: aos2023-proxy
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /openapi/openapi
+              name: openapi-volume
+      restartPolicy: Always
+      volumes:
+        - name: openapi-volume
+          persistentVolumeClaim:
+            claimName: openapi-pvc
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: proxylogs
+  name: proxylogs
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 80
+  selector:
+    io.kompose.service: proxylogs
+status:
+  loadBalancer: {}

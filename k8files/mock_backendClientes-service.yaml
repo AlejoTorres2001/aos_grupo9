@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mock-backendclientes
+  name: mock_backendClientes
+spec:
+  ports:
+    - name: "4011"
+      port: 4011
+      targetPort: 4010
+  selector:
+    io.kompose.service: mock-backendclientes
+status:
+  loadBalancer: {}
