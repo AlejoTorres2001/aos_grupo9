@@ -1,0 +1,18 @@
+Para usar los volumenes teneis que montar la raíz del proyecto a /aos usando el comando:
+
+minikube mount [rutadelproyecto]:/aos
+
+Los volumes necesitan dos ficheros, el persistentVolume y el persistentVolumeClaim.
+Cuando hayais hecho esto, teneis que ejecutar el comando kubectl apply -f para el persistentVolume y a continuación lo mismo para el 
+persistentVolumeClaim.
+
+Despues de esto ya podeis hacer kubectl apply -f del deployment que vaya a hacer uso del volumen.
+
+Para acceder a él desde el navegador hay que lanzar el service tambien con kubectl apply -f pero solo será accesible si el service es
+de tipo NodePort. Hay algunos que son de ese tipo y otros del tipo ClusterIP. Estos últimos solo son accesibles dentro del cluster.
+En otras palabras, el resto de servicios van a conocer la existencia de los demás si tienen la etiqueta del networkpolicy,
+para eso lo creé, pero nosotros no podemos acceder directamente a ellos. 
+Para eso está nodePort, que mapea el puerto que queremos a un puerto del cluster. 
+
+No conseguí nada con el proxy de caddy. Estuve mirando el repo de algún grupo y he visto que unos tienen un deployment para el proxy 
+pero otros no lo tienen directamente. Basicamente lanzan los pods y listo, aparentemente.
